@@ -26,7 +26,7 @@ const SignupForm = () => {
       try {
         setLoading(true)
         await fetch('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
-        // navigate("/")
+        navigate("/login");
       } catch (error) {
         alert('Error submitting form');
         setLoading(false)

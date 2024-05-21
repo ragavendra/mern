@@ -3,6 +3,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/api.js';
+import { create, login_ } from './app/controllers/LoginController.js';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import hpp from 'hpp';
@@ -11,7 +12,7 @@ import cookieParser from "cookie-parser";
 import {MAX_JSON_SIZE, MONGODB_CONNECTION, PORT, REQUEST_LIMIT_NUMBER, REQUEST_LIMIT_TIME, URL_ENCODED, WEB_CACHE} from "./app/config/config.js";
 import AuthMiddleware from './app/middlewares/authMiddleware.js';
 
-import hash from 'pbkdf2-password'
+// import hash from 'pbkdf2-password'
 import path from 'path';
 import session from 'express-session'
 
@@ -51,7 +52,10 @@ app.use(cors());
 app.use(helmet());
 app.use(hpp());
 app.use(cookieParser());
-app.use(AuthMiddleware);
+// app.use("^(?!.*(login|green))", AuthMiddleware);
+// app.use("/api/login", login_)
+// app.use("/api/signup", create)
+app.use("/api/show", AuthMiddleware);
 app.use(express.json({ limit: MAX_JSON_SIZE }));
 app.use(express.urlencoded({extended: URL_ENCODED}));
 const limiter = rateLimit({ windowMs: REQUEST_LIMIT_TIME, max: REQUEST_LIMIT_NUMBER });
@@ -158,9 +162,7 @@ app.use("/api", router);
 // Serve static assets for React front end
 app.use(express.static('dist'));
 
-console.log("Dir is " + __dirname ?? "dir");
-
-
+// console.log("Dir is " + __dirname ?? "dir");
 
 // Serve React front end for all routes not handled by the API
 app.get('*', (req, res) => {

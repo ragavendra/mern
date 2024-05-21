@@ -11,7 +11,7 @@ const List = () => {
     const [loading, setLoading] = useState(true);
     // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIiLCJ1c2VyX2lkIjoicGFzc3dkIiwiaWF0IjoxNzE1OTA0OTIzLCJleHAiOjE3MTg0OTY5MjN9.BB4rdtIjrTn3Qo_jPoyluqNyKDh3Yw43PXT1aRZr_5Q';
     // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIiLCJ1c2VyX2lkIjoicGFzc3dkIiwiaWF0IjoxNzE1OTExNDEwLCJleHAiOjE3MTg1MDM0MTB9.zhmi9mTRmYpdFKP32aGxjdBeF83vKlowUBB676DE5_4';
-    const token = Cookies.get("user_token");
+    const [token, setToken] = useState(Cookies.get("user_token"));
 
     useEffect(() => {
         (async ()=>{
@@ -19,16 +19,22 @@ const List = () => {
         })()
     }, []);
 
-    const showItem = async () =>{
-        const response = await fetch('/api/show', { headers: { 'token': token }});
-        const data = await response.json();
-        setItems(data.result);
-        setLoading(false);
+    const showItem = async () => {
+        fetch('/api/show', { headers: { 'Authorization': `Bearer ${token}` } }).then(response => {
+            if(response.status === 401)
+                return <ListLoader />
+
+            response.json().then(data => {
+                setItems(data.result);
+                setLoading(false);
+            });
+        });
     }
 
     const deleteItem = async (id) => {
         setLoading(true);
-        let res=await fetch(`/api/destroy/${id}`,{ method: 'DELETE', headers:  { 'token': token }
+        let res = await fetch(`/api/destroy/${id}`, {
+            method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }
     });
         let resJson=await res.json()
         toast.success(resJson.message)

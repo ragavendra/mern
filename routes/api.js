@@ -7,8 +7,9 @@ router.post('/store', todoController.store);
 router.get('/show', todoController.show);
 router.delete('/destroy/:id', todoController.destroy);
 
-router.post('/login', loginController.login_);
+router.get('/logout', loginController.logout);
 router.get('/showAll', loginController.showAll);
+router.post('/login', loginController.login_);
 router.post('/signup', loginController.create);
 
 export default router;

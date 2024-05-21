@@ -1,20 +1,23 @@
 import jwt from 'jsonwebtoken';
 import {JWT_EXPIRATION_TIME, JWT_SECRET} from "../config/config.js";
 
-export const EncodeToken = (email, user_id) => {
-    const KEY = JWT_SECRET;
-    const EXPIRE = { expiresIn: JWT_EXPIRATION_TIME };
-    const PAYLOAD = { email: email, user_id: user_id };
-    return jwt.sign(PAYLOAD,KEY,EXPIRE);
+export const EncodeToken = (email) => {
+    return jwt.sign(email, JWT_SECRET, { expiresIn: JWT_EXPIRATION_TIME });
 };
 
 export const DecodeToken = (token) => {
     try {
-        // const KEY = process.env.JWT_SECRET;
-        const KEY = JWT_SECRET;
-        return jwt.verify(token,KEY);
+        return jwt.verify(token, JWT_SECRET);
     } catch (error) {
         console.error("Invalid token " + JSON.stringify(error));
         return null;
     }
 };
+
+export const expireToken = ( data ) => {
+
+    // backdate existing token by 30s
+    data.iat = Math.floor(Date.now() / 1000) - 30;
+
+    return jwt.sign(data, JWT_SECRET);
+}

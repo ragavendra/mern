@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import validationUtility from "../../app/utility/validationUtility.js";
 import Cookies from 'js-cookie';
 
-const LoginForm = () => {
+const Logout = () => {
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -17,22 +17,6 @@ const LoginForm = () => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
-
-  const handleLogout = () => {
-    fetch('/api/logout', { headers: { 'Content-Type': 'application/json' } }).then((resp) => {
-      if (resp.status === 200) {
-
-        Cookies.remove("user_token");
-
-        setLoggedIn(false);
-
-        navigate("/list")
-      }
-      else {
-        alert("Invalid credentials");
-      }
-    })
-  }
 
   const handleSubmit = async () => {
     if (validationUtility.isEmpty(formData.username)) {
@@ -54,12 +38,28 @@ const LoginForm = () => {
               Cookies.set("user_token", jso?.token, { expires: 1, path: "/" });
               // setToken(jso.token);
 
-              navigate("/");
-
               setLoggedIn(true);
             })
 
-            // navigate("/")
+
+            /*
+            // Regenerate session when signing in
+            // to prevent fixation
+            req.session.regenerate(function () {
+              // Store the user's primary key
+              // in the session store to be retrieved,
+              // or in this case the entire user object
+              // req.session.user = user;
+              req.session.user = formData.username;
+              req.session.token = resp.body.token;
+              req.session.success = 'Authenticated as ' + user.name
+                + ' click to <a href="/logout">logout</a>. '
+                + ' You may now access <a href="/restricted">/restricted</a>.';
+
+              //  res.redirect('back');
+            });*/
+
+            navigate("/")
           }
           else {
             alert("Invalid credentials");
@@ -79,10 +79,8 @@ const LoginForm = () => {
       <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
         <div className="col-span-4 md:col-span-4 lg:col-span-4">
         </div>
-        {loggedIn ? (<> User {formData.username} is logged in. Click <button disabled={!loggedIn} onClick={handleLogout} className="btn-primary w-auto my-2 mx-2">here</button> to logout. </> ) : (
+        {loggedIn ? ( <> User { formData.username } is logged in. Click <button src="/logout">here</button> to logout. </> ) : (
         <div className="col-span-4 md:col-span-4 lg:col-span-4">
-          <input type="text" placeholder="Username" className="form-control" name="username" value={formData.username} onChange={handleChange} />
-          <input type='password' placeholder="Password" className="mt-3 form-text" name="password" value={formData.password} onChange={handleChange} />
           <button disabled={loading} onClick={handleSubmit} className="btn-primary w-auto my-2 mx-2">
             {loading ? (<span>Logging..</span>) : (<span>Login</span>)}
           </button>
@@ -95,4 +93,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Logout;
