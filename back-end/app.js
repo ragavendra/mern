@@ -101,5 +101,5 @@ router.use(function (req, res) {
 });
 
 app.listen(PORT,()=>{
-    console.log(`MERN-X Server Running ${PORT}`)
+    console.log(`Back end running on ${PORT}`)
 });

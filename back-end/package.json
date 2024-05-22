@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "mern": "node app/config/cli.js run:mernx",
+    "dev": "node app/config/cli.js run:mernx",
     "create:model": "node app/config/cli.js make:model",
     "create:controller": "node app/config/cli.js make:controller",
     "create:middleware": "node app/config/cli.js make:middleware"
