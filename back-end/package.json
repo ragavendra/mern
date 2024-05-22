@@ -2,10 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend with express.",
-  "main": "app.js",
-  "type": "module",
   "scripts": {
-    "dev": "node app/config/cli.js run:mernx",
+    "dev": "node app.js",
     "create:model": "node app/config/cli.js make:model",
     "create:controller": "node app/config/cli.js make:controller",
     "create:middleware": "node app/config/cli.js make:middleware"

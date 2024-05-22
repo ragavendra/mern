@@ -1,6 +1,6 @@
-import {DecodeToken} from "../utility/tokenUtility.js";
+const { DecodeToken } = require('../utility/tokenUtility.js');
 
-function AuthMiddleWare (req, res, next) {
+const AuthMiddleWare = (req, res, next) => {
 //    if(req) {
     // console.log("Token " + req?.method);
 
@@ -39,4 +39,4 @@ function AuthMiddleWare (req, res, next) {
 // }
 };
 
-export default AuthMiddleWare;
+module.exports = AuthMiddleWare;

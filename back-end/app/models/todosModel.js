@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const todosSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
@@ -9,4 +9,4 @@ const todosSchema = new mongoose.Schema(
 
 const todos = mongoose.model('todos', todosSchema);
 
-export default todos;
+module.exports = todos;

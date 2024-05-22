@@ -1,5 +1,6 @@
 'use strict'
 
+/*
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/api.js';
@@ -11,8 +12,20 @@ import fs from 'fs';
 import cookieParser from "cookie-parser";
 import {MAX_JSON_SIZE, MONGODB_CONNECTION, PORT, REQUEST_LIMIT_NUMBER, REQUEST_LIMIT_TIME, URL_ENCODED, WEB_CACHE} from "./app/config/config.js";
 import AuthMiddleware from './app/middlewares/authMiddleware.js';
-import session from 'express-session'
+import session from 'express-session'*/
 
+const express = require('express');
+const mongoose = require('mongoose');
+const { router } = require('./routes/api.js');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const hpp = require('hpp');
+const cors = require('cors');
+const fs = require('fs');
+const { MAX_JSON_SIZE, MONGODB_CONNECTION, PORT, REQUEST_LIMIT_NUMBER, REQUEST_LIMIT_TIME, URL_ENCODED, WEB_CACHE } = require('./app/config/config.js');
+const AuthMiddleWare = require('./app/middlewares/authMiddleware.js');
+const session = require('express-session');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
@@ -43,7 +56,8 @@ app.use(cookieParser());
 // app.use("^(?!.*(login|green))", AuthMiddleware);
 // app.use("/api/login", login_)
 // app.use("/api/signup", create)
-app.use(["/api/show", "/api/one", "/api/store1"], AuthMiddleware);
+app.use(["/api/show", "/api/one", "/api/store1"], AuthMiddleWare);
+// app.use("/api/show", AuthMiddleWare);
 app.use(express.json({ limit: MAX_JSON_SIZE }));
 app.use(express.urlencoded({extended: URL_ENCODED}));
 const limiter = rateLimit({ windowMs: REQUEST_LIMIT_TIME, max: REQUEST_LIMIT_NUMBER });

@@ -1,14 +1,7 @@
 // Controller for Login
-import login from '../models/loginModel.js'
-import { DecodeToken, EncodeToken, expireToken } from '../utility/tokenUtility.js';
-// var bkfd2Password = require("pbkdf2-password");
-// var hash = bkfd2Password();
-// import * as hash from "pbkdf2-password"
-// var hash = require('pbkdf2-password')()
-// var bcrypt = require('bcryptjs');
-// import { genSalt, hash } from 'bcryptjs';
-import pkg from 'bcryptjs';
-const { genSalt, hash, compare } = pkg;
+const login = require('../models/loginModel.js');
+const { DecodeToken, EncodeToken, expireToken } = require('../utility/tokenUtility.js');
+const { genSalt, hash, compare } = require('bcryptjs');
 
 // Authenticate using our plain-object database of doom!
 function authenticate(name, pass, fn) {
@@ -29,7 +22,7 @@ function authenticate(name, pass, fn) {
 }
 
 // register user
-export const create = async (req, res) => {
+const create = async (req, res) => {
     try {
         // Your Code Here
         console.log("Creds " + JSON.stringify(req?.body));
@@ -59,7 +52,7 @@ export const create = async (req, res) => {
 };
 
 // login
-export const login_ = (req, resp) => {
+const login_ = (req, resp) => {
 
     // Your Code Here
     const { username, password } = req.body;
@@ -120,7 +113,7 @@ export const login_ = (req, resp) => {
 };
 
 // logout
-export const logout = (req, res) => {
+const logout = (req, res) => {
 
     try {
         // Your Code Here
@@ -168,7 +161,7 @@ export const logout = (req, res) => {
 };
 
 // list users
-export const showAll = async (req, res) => {
+const showAll = async (req, res) => {
     try {
         // Your Code Here
         // feth all users
@@ -180,7 +173,7 @@ export const showAll = async (req, res) => {
     }
 };
 
-export const update = async (req, res) => {
+const update = async (req, res) => {
     try {
         // Your Code Here
         return res.json({ message: 'Item updated successfully' });
@@ -189,7 +182,7 @@ export const update = async (req, res) => {
     }
 };
 
-export const destroy = async (req, res) => {
+const destroy = async (req, res) => {
     try {
         // Your Code Here
         return res.json({ message: 'Item deleted successfully' });
@@ -197,3 +190,5 @@ export const destroy = async (req, res) => {
         return res.json({ error: error.message || 'Internal Server Error' });
     }
 };
+
+module.exports = { create, login_, logout, showAll, update, destroy };
