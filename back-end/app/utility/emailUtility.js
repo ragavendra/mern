@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
-import {EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_USER} from "../config/config.js";
+const nodemailer = require('nodemailer');
+const {EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT, EMAIL_USER} = require('../config/config.js');
 
 const EmailSend = async (EmailTo, EmailText, EmailSubject, EmailHTMLBody) => {
     const transporter = nodemailer.createTransport({
@@ -28,4 +28,4 @@ const EmailSend = async (EmailTo, EmailText, EmailSubject, EmailHTMLBody) => {
     }
 };
 
-export default EmailSend;
+module.exports = EmailSend;

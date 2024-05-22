@@ -1,6 +1,6 @@
-import todos from "../models/todosModel.js";
+const todos = require('../models/todosModel.js');
 
-export const store = async (req, res) => {
+const store = async (req, res) => {
     try {
         const { name, description } = req.body;
         await todos.create({ name, description });
@@ -11,7 +11,7 @@ export const store = async (req, res) => {
 };
 
 
-export const show = async (req, res) => {
+const show = async (req, res) => {
     try {
         const todo = await todos.find();
         return res.json({message:"success",result:todo});
@@ -21,7 +21,7 @@ export const show = async (req, res) => {
 };
 
 
-export const destroy = async (req, res) => {
+const destroy = async (req, res) => {
     try {
         const { id } = req.params;
         await todos.deleteOne({_id:id});
@@ -30,3 +30,5 @@ export const destroy = async (req, res) => {
         return res.json({ error: error.message || 'Internal Server Error' });
     }
 };
+
+module.exports = { store, show, destroy };

@@ -1,11 +1,11 @@
-import jwt from 'jsonwebtoken';
-import {JWT_EXPIRATION_TIME, JWT_SECRET} from "../config/config.js";
+const jwt = require('jsonwebtoken');
+const { JWT_EXPIRATION_TIME, JWT_SECRET } = require('../config/config.js');
 
-export const EncodeToken = (email) => {
+const EncodeToken = (email) => {
     return jwt.sign(email, JWT_SECRET, { expiresIn: JWT_EXPIRATION_TIME });
 };
 
-export const DecodeToken = (token) => {
+const DecodeToken = (token) => {
     try {
         return jwt.verify(token, JWT_SECRET);
     } catch (error) {
@@ -14,10 +14,12 @@ export const DecodeToken = (token) => {
     }
 };
 
-export const expireToken = ( data ) => {
+const expireToken = ( data ) => {
 
     // backdate existing token by 30s
     data.iat = Math.floor(Date.now() / 1000) - 30;
 
     return jwt.sign(data, JWT_SECRET);
 }
+
+module.exports = { EncodeToken, DecodeToken, expireToken };

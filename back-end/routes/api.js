@@ -1,16 +1,15 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import * as todoController from '../app/controllers/todoController.js';
-import * as loginController from '../app/controllers/LoginController.js'
+const { store, show, destroy } = require('../app/controllers/todoController.js');
+const { logout, showAll, login_, create } = require('../app/controllers/LoginController.js');
 
-router.post('/store', todoController.store);
-router.get('/show', todoController.show);
-router.delete('/destroy/:id', todoController.destroy);
+router.post('/store', store);
+router.get('/show', show);
+router.delete('/destroy/:id', destroy);
 
-router.get('/logout', loginController.logout);
-router.get('/showAll', loginController.showAll);
-router.post('/login', loginController.login_);
-router.post('/signup', loginController.create);
+router.get('/logout', logout);
+router.get('/showAll', showAll);
+router.post('/login', login_);
+router.post('/signup', create);
 
-
-export default router;
+module.exports = { router };
