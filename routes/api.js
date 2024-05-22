@@ -12,4 +12,5 @@ router.get('/showAll', loginController.showAll);
 router.post('/login', loginController.login_);
 router.post('/signup', loginController.create);
 
+
 export default router;
