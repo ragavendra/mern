@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint_": "eslint . --ignore-pattern \"dist\"",
     "preview": "vite preview",
     "mern": "node app/config/cli.js run:mernx",
     "create:page": "node app/config/cli.js make:page",
